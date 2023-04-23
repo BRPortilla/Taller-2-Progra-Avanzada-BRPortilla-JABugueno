@@ -1,0 +1,110 @@
+@startuml
+class Sistema {
+    -Libros: Libro[]
+    -Socios: Socio[]
+    -Socio: socio
+    -GSON :Gson
+    "Nota: Ciertos Metodos Intermediarios que permiten Llamar Metodos de Otras Clases, los cuales no tienen tanta relevancia y por temas de Espacio"
+    +Sistema()
+    +IniciarSession(NumeroDeSocio: int, Contrasenia: String ):void
+    +CerrarSession():void
+    +RealizarPrestamoLibro(ISBN: String):void
+    +ObtegerCatalogoLibros(Prestamo_Calificacion:int):String
+    +BuscarLibro(ISBN:String):Libro
+    +CargarInformacion():void
+    +GuardarInformacion():void
+    +ObtenerDatosSocioLoggeado():String
+    +BuscarSocio(NumeroDeSocio:int):Socio
+    +VerificarContraseniaSistema(Contrasenia:String , Socio1:Socio):boolean
+    +LoggearSocio(Socio1:Socio, ContraseniaCorrecta:boolean ):void
+    +VerificarCorreo(Correo:String):boolean
+    +VerificarNombre(Nombre:String):boolean
+    +VerificarApellido(Apellido:String):boolean
+    +ObtenerLibro(ISBN:String):Libro
+    +CalificarLibros(Libro:Libro, Estrellas: int):void
+    +CantLibroSocio():int
+    +CantMaximaLibroSocio():int
+    +ObtenerLibroSocio():String
+    +RealizarDevolucionLibros(ISBN:String):void
+    +VerificarContraseniaSocioLoggeado(Contrasenia:String):boolean
+
+    +CambioDeNombre(Nombre:String):void
+    +CambioDeApellido(Apellido:String):void
+    +CambioDeCorreo(Correo:String):void
+    +CambioDeContrasenia(Contrasenia:String):void
+
+
+
+
+}
+
+class Libro {
+    -ISBN: String
+    -Titulo: String
+    -Autor: String
+    -Categoria: String
+    -ListaCalificaciones: Calificacion[]
+    -CantidadCalificaciones: int
+    -Prestado: boolean
+    +Libro(ISBN: String, Titulo: String, Autor: String, Categoria:String)
+    +getCalificaciones(): double
+    +getTitulo(): String
+    +getISBN(): String
+    +getAutor(): String
+    +getCategoria(): String
+    +getPrestado(): boolean
+    +setPrestado(Prestado: boolean): void
+    +SumarCalificacion(Estrellas : int, Socio: Socio): void
+
+}
+
+class Socio {
+    -NumeroDeSocio: int
+    -NumeroLibrosMaximo: int
+    -Nombre: String
+    -Apellido: String
+    -LibrosEnPrestamos: Libro[]
+    -CorreoElectronico: String
+    -Contrasenia: String
+    -CantLibrosActual: int
+    +Socio(Nombre: String, Apellido: String,NumeroDeSocio: int, Contrasenia: String)
+    +getNombre(): String
+    +getApellido(): String
+    +getNombreCompleto(): String
+    +getCorreoElectronico(): String
+    +getNumeroDeSocio(): int
+    +getContrasenia(): String
+    +getCantLibros():int
+    +getCantMaximaLibros():int
+    +ObtenerLibrosEnPrestamo():String
+    +AgregarLibro(Libro:libro): void
+    +CambioContrasenia(Contrasenia:String): void
+    +CambioCorreo(Correo:String): void
+    +CambioNombre(Nombre:String): void
+    +CambioApellido(Apellido:String): void
+    +devolverLibro(libro: Libro): void
+    +realizarReserva(libro: Libro)
+    +cancelarReserva(libro: Libro)
+    +prestarLibro(libro: Libro)
+
+
+
+}
+
+class Calificacion {
+    -NumeroDeEstrellas: int
+    -NumeroDeSocio: int
+    +Calificacion(Estrellas: int, NumeroDeSocio: int)
+    +getEstrellas(): int
+    +getNumeroDeSocio(): int
+    +setEstrellas(Estrellas:int): void
+    +setNumeroDeSocio(NumeroDeSocio:int): void
+}
+
+Sistema "1" -->  "1..*" Libro
+Sistema "1" -->  "1..*" Socio
+Socio "1..*" -->  "1..*"Libro: Solicita
+Libro "1..*" -->  "1..*" Calificacion: Tiene
+Socio "1..*" -->  "1..*" Calificacion: Realiza
+
+@enduml

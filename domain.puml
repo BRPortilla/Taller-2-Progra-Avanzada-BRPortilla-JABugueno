@@ -1,0 +1,40 @@
+@startuml
+entity Sistema {
+
+    Libros
+    Socios
+
+}
+
+entity Libro {
+    ISBN
+    Titulo
+    Autor
+    Categoria
+    ListaCalificaciones
+    CantidadCalificaciones
+    Prestado
+}
+
+entity Socio {
+    NumeroDeSocio
+    Nombre
+    Apellido
+    ListaLibrosPrestados
+    CorreoElectronico
+    Contrasenia
+    Reservas
+}
+
+entity Calificacion {
+    NumeroDeEstrellas
+    NumeroDeSocio
+
+}
+
+Sistema "1" --> "1..*" Libro : Tiene
+Sistema "1" --> "1..*" Socio : Tiene
+Socio "1..*" --> "1..*" Libro : Solicita
+Libro "1..*" --> "1..*" Calificacion : Tiene
+Socio "1..*" --> "1..*" Calificacion : Realiza
+@enduml
